@@ -1,0 +1,71 @@
+version: "3.9"
+services:
+  api:
+    container_name: go_api
+    build: ./api
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+        mode: host
+    networks:
+      - api
+    depends_on:
+      - nginx
+  nginx:
+    container_name: nginx-server
+    image: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - target: 80
+        published: 3310
+        protocol: tcp
+        mode: host
+      #- target: 443
+      #  published: 443
+      #  protocol: tcp
+      #  mode: host
+    # entrypoint: /server/nginx/daemon.off.sh
+    networks:
+      - api
+      - client
+    volumes:
+      - ./client:/usr/share/nginx/html
+      - ./server/nginx/conf.d:/etc/nginx/conf.d 
+  db:
+    image: mysql:8.0
+    restart: always
+    environment: 
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - target: 3306
+        published: 3306
+        protocol: tcp
+        mode: host
+    expose:
+      - '3306'
+    volumes: 
+      - mysql8-db-vol:/var/lib/mysql
+  phpmyadmin:
+    container_name: mysql_manager
+    depends_on: 
+      - db
+    ports: 
+      - target: 80
+        published: 8081
+        protocol: tcp
+        mode: host
+    image: phpmyadmin/phpmyadmin
+    volumes: 
+      - pma-db-vol:/bitnami/mariadb
+networks:
+  api:
+    driver: bridge
+  client: {}
+volumes: 
+  mysql8-db-vol: {}
+  pma-db-vol: {}
