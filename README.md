@@ -10,7 +10,10 @@ My first docker project, so it is not stable 🥺 I'm created repo for developme
 * PhpMyAdmin
 
 HTML/CSS using port is: **3310**
+
 Go API using port is: **3000**
+
+PhpMyAdmin using port is: **8081**
 
 Don't forgot add `local.docker` to `etc/hosts`
 
