@@ -33,6 +33,6 @@ client              -- html/css
 
 # Todo
 
- - [ ] NGINX proxy pass correctly
- - [ ] Fix NGINX issues
+ - [x] NGINX proxy pass correctly
+ - [x] Fix NGINX issues
  - [ ] Add Letscrypt SSL Cert

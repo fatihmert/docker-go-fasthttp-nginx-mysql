@@ -8,10 +8,14 @@ services:
         published: 3000
         protocol: tcp
         mode: host
+    volumes:
+      - ./logs/go:/dev/stdout
     networks:
       - api
     depends_on:
       - nginx
+    links:
+      - db
   nginx:
     container_name: nginx-server
     image: nginx
@@ -31,11 +35,13 @@ services:
   db:
     image: mysql:8.0
     restart: always
+    env_file:
+      - ./api/.env
     environment: 
-      MYSQL_DATABASE: 'db'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - target: 3306
         published: 3306
