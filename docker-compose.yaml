@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.3"
 services:
   api:
     container_name: go_api
@@ -19,14 +19,9 @@ services:
     tty: true
     ports:
       - target: 80
-        published: 3310
+        published: 80
         protocol: tcp
         mode: host
-      #- target: 443
-      #  published: 443
-      #  protocol: tcp
-      #  mode: host
-    # entrypoint: /server/nginx/daemon.off.sh
     networks:
       - api
       - client
@@ -48,6 +43,8 @@ services:
         mode: host
     expose:
       - '3306'
+    networks:
+      - assocaited
     volumes: 
       - mysql8-db-vol:/var/lib/mysql
   phpmyadmin:
@@ -55,15 +52,19 @@ services:
     depends_on: 
       - db
     ports: 
-      - target: 80
-        published: 8081
-        protocol: tcp
-        mode: host
+     - target: 80
+       published: 8080
+       protocol: tcp
+       mode: host
     image: phpmyadmin/phpmyadmin
+    networks:
+      - assocaited
     volumes: 
       - pma-db-vol:/bitnami/mariadb
 networks:
   api:
+    driver: bridge
+  assocaited:
     driver: bridge
   client: {}
 volumes: 

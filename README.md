@@ -9,13 +9,13 @@ My first docker project, so it is not stable 🥺 I'm created repo for developme
 * MySQL 8.0
 * PhpMyAdmin
 
-HTML/CSS using port is: **3310**
+### Host
 
-Go API using port is: **3000**
-
-PhpMyAdmin using port is: **8081**
-
-Don't forgot add `local.docker` to `etc/hosts`
+| Container   |      URL & Host      |  Port |
+|----------|:-------------:|------:|
+| Go Api |  api.dev.go-api | 80 |
+| Static HTML |    dev.go-api   |   80 |
+| PhpMyAdmin | dev.go-api |    8080 |
 
 ## Application Structure
 
